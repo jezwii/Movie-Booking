@@ -15,7 +15,7 @@ export const useMovies = () => {
       setLoading(true);
       try {
         const data = await movieService.getMovies();
-        dispatch(setMovies(data));
+        dispatch(setMovies(data.slice(0, 6)));
         setError(null);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to fetch movies");

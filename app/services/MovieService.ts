@@ -1,62 +1,47 @@
-import axios from "axios";
 import { Movie } from "../types/type";
+import { request } from "./httpService";
 
-const MOVIE_DB_API = "https://api.movieposterdb.com/v1/random/movies";
+const TMDB_API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
+const TMDB_API_URL = "https://api.themoviedb.org/3/movie/popular";
 
 export const movieService = {
   async getMovies(): Promise<Movie[]> {
-    // Placeholder movies for development
-    const placeholderMovies: Movie[] = [
-      {
-        id: "1",
-        title: "Inception",
-        genre: "Sci-Fi",
-        rating: 8.8,
-        duration: "148m",
-        image: "/Movie Poster.png",
-      },
-      {
-        id: "2",
-        title: "The Dark Knight",
-        genre: "Action",
-        rating: 9.0,
-        duration: "152m",
-        image: "/Movie Poster.png",
-      },
-      {
-        id: "3",
-        title: "Interstellar",
-        genre: "Sci-Fi",
-        rating: 8.6,
-        duration: "169m",
-        image: "/Movie Poster.png",
-      },
-      {
-        id: "4",
-        title: "Pulp Fiction",
-        genre: "Crime",
-        rating: 8.9,
-        duration: "154m",
-        image: "/Movie Poster.png",
-      },
-      {
-        id: "5",
-        title: "The Shawshank Redemption",
-        genre: "Drama",
-        rating: 9.3,
-        duration: "142m",
-        image: "/Movie Poster.png",
-      },
-      {
-        id: "6",
-        title: "Forrest Gump",
-        genre: "Drama",
-        rating: 8.8,
-        duration: "142m",
-        image: "/Movie Poster.png",
-      },
-    ];
+    return new Promise<Movie[]>((resolve) => {
+      if (!TMDB_API_KEY) {
+        console.error("TMDB API key is not set in environment variables.");
+        resolve([]);
+        return;
+      }
 
-    return placeholderMovies;
+      const url = `${TMDB_API_URL}?api_key=${TMDB_API_KEY}&language=en-US&page=1`;
+
+      request(
+        "GET",
+        url,
+        (data: any) => {
+          try {
+            const movies: Movie[] = (data.results || []).map((movie: any) => ({
+              id: movie.id.toString(),
+              title: movie.title,
+
+              rating: movie.vote_average,
+              duration: "2hrs",
+              image: movie.poster_path
+                ? `https://image.tmdb.org/t/p/w1280${movie.poster_path}`
+                : "",
+              description: movie.overview || "No description available.",
+            }));
+            resolve(movies);
+          } catch (err) {
+            console.error("Error parsing movie data:", err);
+            resolve([]);
+          }
+        },
+        (err: any) => {
+          console.error("Failed to fetch movies from TMDB:", err);
+          resolve([]);
+        },
+      );
+    });
   },
 };
