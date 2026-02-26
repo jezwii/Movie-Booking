@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import Sidebar from "./shared_compoonents/Sidebar";
 import Topbar from "./shared_compoonents/Topbar";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,23 +28,24 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Provider store={store}>
-          <ThemeProvider theme={pageTheme}>
-            <CssBaseline />
-            <Box sx={{ display: "flex", height: "100vh" }}>
-              <Box sx={{ width: 240 }}>
-                <Sidebar />
-              </Box>
-              <Box sx={{ display: "flex", flex: 1, flexDirection: "column" }}>
-                <Box sx={{ height: 64 }}>
-                  <Topbar />
+        <AppRouterCacheProvider>
+          <Provider store={store}>
+            <ThemeProvider theme={pageTheme}>
+              <CssBaseline />
+              <Box sx={{ display: "flex", height: "100vh" }}>
+                <Box sx={{ width: 240 }}>
+                  <Sidebar />
                 </Box>
-
-                <Box sx={{ flex: 1, p: 3 }}>{children}</Box>
+                <Box sx={{ display: "flex", flex: 1, flexDirection: "column" }}>
+                  <Box sx={{ height: 64 }}>
+                    <Topbar />
+                  </Box>
+                  <Box sx={{ flex: 1, p: 3 }}>{children}</Box>
+                </Box>
               </Box>
-            </Box>
-          </ThemeProvider>
-        </Provider>
+            </ThemeProvider>
+          </Provider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );
