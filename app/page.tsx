@@ -36,7 +36,7 @@ export default function Home() {
       </Typography>
       <Grid container spacing={5}>
         {movies.map((movie) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={3} key={movie.id}>
+          <Grid size={{ xs: 12, sm: 6, md: 4, lg: 4, xl: 4 }} key={movie.id}>
             <MovieCard movie={movie} />
           </Grid>
         ))}
@@ -44,3 +44,5 @@ export default function Home() {
     </Box>
   );
 }
+
+// size={{ xs: 12, sm: 6, md: 4, lg: 3, xl: 3 }}

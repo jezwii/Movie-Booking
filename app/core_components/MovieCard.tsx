@@ -15,6 +15,7 @@ interface Props {
 }
 export default function MovieCard({ movie }: Props) {
   const router = useRouter();
+
   const handleClick = () => {
     router.push(`movies/${movie.id}`);
   };
@@ -45,16 +46,9 @@ export default function MovieCard({ movie }: Props) {
       />
       <CardContent>
         <Typography variant="h6">{movie.title}</Typography>
-        <Typography variant="body2">⭐{movie.rating}</Typography>
+        <Typography variant="body2">⭐{movie.rating}/10</Typography>
         <Typography variant="body2">{movie.duration}</Typography>
       </CardContent>
-      <Button
-        onClick={() => {
-          router.push("/bookingPage");
-        }}
-      >
-        Book Now
-      </Button>
     </Card>
   );
 }

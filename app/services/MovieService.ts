@@ -44,4 +44,43 @@ export const movieService = {
       );
     });
   },
+
+  async getMovieById(id: string): Promise<Movie | null> {
+    return new Promise<Movie | null>((resolve) => {
+      if (!TMDB_API_KEY) {
+        console.error("TMDB API key is not set in environment variables.");
+        resolve(null);
+        return;
+      }
+
+      const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${TMDB_API_KEY}&language=en-US`;
+
+      request(
+        "GET",
+        url,
+        (data: any) => {
+          try {
+            const movie: Movie = {
+              id: data.id.toString(),
+              title: data.title,
+              rating: data.vote_average,
+              duration: data.runtime ? `${data.runtime}m` : "N/A",
+              image: data.poster_path
+                ? `https://image.tmdb.org/t/p/w1280${data.poster_path}`
+                : "",
+              description: data.overview || "No description available.",
+            };
+            resolve(movie);
+          } catch (err) {
+            console.error("Error parsing movie data:", err);
+            resolve(null);
+          }
+        },
+        (err: any) => {
+          console.error("Failed to fetch movie from TMDB:", err);
+          resolve(null);
+        },
+      );
+    });
+  },
 };
