@@ -11,12 +11,24 @@ import {
   Typography,
   Button,
 } from "@mui/material";
+import PickDate from "@/app/core_components/PickDate"; // date picker component
 import { useParams } from "next/navigation";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store/store";
 
 export default function MovieDetailPage() {
   const params = useParams();
   const id = params.id as string;
   const router = useRouter();
+
+  const bookingDate = useSelector(
+    (state: RootState) => state.movies.bookingDate,
+  );
+  const bookingTime = useSelector(
+    (state: RootState) => state.movies.bookingTime,
+  );
+
+  const canContinue = bookingDate && bookingTime;
 
   const { currMovie, loading, error } = useMovieDetails(id);
 
@@ -81,13 +93,26 @@ export default function MovieDetailPage() {
             </Typography>
           </CardContent>
 
-          <Box sx={{ p: 2, display: "flex", justifyContent: "flex-end" }}>
+          <Box
+            sx={{
+              p: 2,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+            }}
+          >
+            {/* date selection stored in redux */}
+            <Box sx={{ mr: 2, mb: 2 }}>
+              <PickDate />
+            </Box>
             <Button
               onClick={() => {
                 router.push(`booking/${currMovie.id}`);
               }}
               variant="contained"
+              disabled={!canContinue}
               color="primary"
+              sx={{ mr: 2, mb: 2 }}
             >
               Book Now
             </Button>

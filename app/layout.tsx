@@ -33,7 +33,7 @@ export default function RootLayout({
             <ThemeProvider theme={pageTheme}>
               <CssBaseline />
               <Box sx={{ display: "flex", height: "100vh" }}>
-                <Box sx={{ width: 240 }}>
+                <Box>
                   <Sidebar />
                 </Box>
                 <Box sx={{ display: "flex", flex: 1, flexDirection: "column" }}>
