@@ -28,7 +28,7 @@ export const useMovies = () => {
     if (movies.length === 0) {
       fetchMovies();
     }
-  }, [dispatch, movies.length]);
+  }, [dispatch, movies.length, movieService.getMovies]);
 
   return { movies, loading, error };
 };
@@ -61,7 +61,7 @@ export const useMovieDetails = (id: string | null) => {
     };
 
     fetchMovie();
-  }, [dispatch, id]);
+  }, [dispatch, id, movieService.getMovieById]);
 
   return { currMovie, loading, error };
 };

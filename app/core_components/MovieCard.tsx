@@ -15,6 +15,7 @@ interface Props {
 }
 export default function MovieCard({ movie }: Props) {
   const router = useRouter();
+  const rating = movie.rating.toFixed(2);
 
   const handleClick = () => {
     router.push(`movies/${movie.id}`);
@@ -46,7 +47,7 @@ export default function MovieCard({ movie }: Props) {
       />
       <CardContent>
         <Typography variant="h6">{movie.title}</Typography>
-        <Typography variant="body2">⭐{movie.rating}/10</Typography>
+        <Typography variant="body2">⭐{rating}/10</Typography>
         <Typography variant="body2">{movie.duration}</Typography>
       </CardContent>
     </Card>
