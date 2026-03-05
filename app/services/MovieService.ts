@@ -4,6 +4,19 @@ import { request } from "./httpService";
 const TMDB_API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 const TMDB_API_URL = "https://api.themoviedb.org/3/movie/popular";
 
+interface TMDBMovieResponse {
+  results: TMDBMovie[];
+}
+
+interface TMDBMovie {
+  id: number;
+  title: string;
+  vote_average: number;
+  poster_path: string | null;
+  overview: string;
+  runtime?: number;
+}
+
 export const movieService = {
   async getMovies(): Promise<Movie[]> {
     return new Promise<Movie[]>((resolve) => {
@@ -18,9 +31,9 @@ export const movieService = {
       request(
         "GET",
         url,
-        (data: any) => {
+        (data: TMDBMovieResponse) => {
           try {
-            const movies: Movie[] = (data.results || []).map((movie: any) => ({
+            const movies: Movie[] = (data.results || []).map((movie: TMDBMovie) => ({
               id: movie.id.toString(),
               title: movie.title,
 
@@ -58,7 +71,7 @@ export const movieService = {
       request(
         "GET",
         url,
-        (data: any) => {
+        (data: TMDBMovie) => {
           try {
             const movie: Movie = {
               id: data.id.toString(),

@@ -8,7 +8,7 @@ import {
   CardMedia,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { Movie } from "../types/type";
+import { Movie } from "../../app/types/type";
 
 interface Props {
   movie: Movie;
