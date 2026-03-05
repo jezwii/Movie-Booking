@@ -1,7 +1,8 @@
 "use client";
 import { Grid, Typography, Box, CircularProgress, Alert } from "@mui/material";
-import MovieCard from "./core_components/MovieCard";
+import MovieCard from "../component_lib/shared_components/MovieCard";
 import { useMovies } from "./hooks/useMovies";
+import WithAuth from "@/app/providers/withAuth";
 
 export default function Home() {
   const { movies, loading, error } = useMovies();
@@ -30,19 +31,19 @@ export default function Home() {
   }
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h4" sx={{ mb: 3, color: "white" }}>
-        Featured Movies
-      </Typography>
-      <Grid container spacing={5}>
-        {movies.map((movie) => (
-          <Grid size={{ xs: 12, sm: 6, md: 4, lg: 4, xl: 4 }} key={movie.id}>
-            <MovieCard movie={movie} />
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
+    <WithAuth>
+      <Box sx={{ p: 3 }}>
+        <Typography variant="h4" sx={{ mb: 3, color: "white" }}>
+          Featured Movies
+        </Typography>
+        <Grid container spacing={5}>
+          {movies.map((movie) => (
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 4, xl: 4 }} key={movie.id}>
+              <MovieCard movie={movie} />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    </WithAuth>
   );
 }
-
-// size={{ xs: 12, sm: 6, md: 4, lg: 3, xl: 3 }}

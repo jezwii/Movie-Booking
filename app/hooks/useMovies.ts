@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { movieService } from "../services/MovieService";
+import { movieService } from "../services/movieService";
 import { setMovies, selectMovie } from "../store/slices/movieSlice";
 import { RootState } from "../store/store";
 
