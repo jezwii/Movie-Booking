@@ -33,24 +33,26 @@ export const movieService = {
         url,
         (data: TMDBMovieResponse) => {
           try {
-            const movies: Movie[] = (data.results || []).map((movie: TMDBMovie) => ({
-              id: movie.id.toString(),
-              title: movie.title,
+            const movies: Movie[] = (data.results || []).map(
+              (movie: TMDBMovie) => ({
+                id: movie.id.toString(),
+                title: movie.title,
 
-              rating: movie.vote_average,
-              duration: "2hrs",
-              image: movie.poster_path
-                ? `https://image.tmdb.org/t/p/w1280${movie.poster_path}`
-                : "",
-              description: movie.overview || "No description available.",
-            }));
+                rating: movie.vote_average,
+                duration: "2hrs",
+                image: movie.poster_path
+                  ? `https://image.tmdb.org/t/p/w1280${movie.poster_path}`
+                  : "",
+                description: movie.overview || "No description available.",
+              }),
+            );
             resolve(movies);
           } catch (err) {
             console.error("Error parsing movie data:", err);
             resolve([]);
           }
         },
-        (err: any) => {
+        (err: unknown) => {
           console.error("Failed to fetch movies from TMDB:", err);
           resolve([]);
         },
@@ -89,7 +91,7 @@ export const movieService = {
             resolve(null);
           }
         },
-        (err: any) => {
+        (err: unknown) => {
           console.error("Failed to fetch movie from TMDB:", err);
           resolve(null);
         },

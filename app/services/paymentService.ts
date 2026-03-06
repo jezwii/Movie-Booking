@@ -1,3 +1,5 @@
+import { request } from "./httpService";
+
 export interface CheckoutSessionPayload {
   totalAmount: number;
   movieTitle: string;
@@ -5,39 +7,33 @@ export interface CheckoutSessionPayload {
   movieId: string | number;
   bookingDate: string;
   bookingTime: string;
-  seats: string;          // comma-separated, e.g. "A1,A2"
+  seats: string;          // "A1,A2"
   ticketCount: number;
 }
 
-export const createCheckoutSession = async (
+export const createCheckoutSession = (
   payload: CheckoutSessionPayload,
-) => {
-  const res = await fetch("/api/create-checkout-session", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
-
-  if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.error ?? "Failed to create checkout session");
-  }
-
-  return res.json() as Promise<{ url: string }>;
-};
-
-export const getCheckoutSession = async (sessionId: string) => {
-  const res = await fetch(
-    `/api/get-checkout-session?session_id=${encodeURIComponent(sessionId)}`,
+): Promise<{ url: string }> =>
+  new Promise((resolve, reject) =>
+    request<{ url: string }>(
+      "POST",
+      "/api/create-checkout-session",
+      resolve,
+      reject,
+      {},
+      "json",
+      payload,
+    )
   );
 
-  if (!res.ok) {
-    throw new Error("Failed to retrieve checkout session");
-  }
-
-  return res.json() as Promise<{
-    status: string;
-    metadata: Record<string, string>;
-  }>;
-};
-
+export const getCheckoutSession = (
+  sessionId: string,
+): Promise<{ status: string; metadata: Record<string, string> }> =>
+  new Promise((resolve, reject) =>
+    request<{ status: string; metadata: Record<string, string> }>(
+      "GET",
+      `/api/get-checkout-session?session_id=${encodeURIComponent(sessionId)}`,
+      resolve,
+      reject,
+    )
+  );

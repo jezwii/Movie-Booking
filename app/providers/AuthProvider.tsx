@@ -7,7 +7,11 @@ import { useDispatch } from "react-redux";
 import { setUser, clearUser } from "@/app/store/slices/authSlice";
 import { AppDispatch } from "@/app/store/store";
 
-export default function AuthProvider({ children }: { children: React.ReactNode }) {
+export default function AuthProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -19,13 +23,13 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
             email: firebaseUser.email,
             displayName: firebaseUser.displayName,
             photoURL: firebaseUser.photoURL,
-          })
+          }),
         );
       } else {
         dispatch(clearUser());
       }
     });
-
+    //clean up subscription on unmount
     return () => unsubscribe();
   }, [dispatch]);
 

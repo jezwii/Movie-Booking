@@ -1,7 +1,5 @@
 "use client";
 import { useMovieDetails } from "@/app/hooks/useMovies";
-import { selectMovie } from "@/app/store/slices/movieSlice";
-import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import {
   Alert,
@@ -13,7 +11,7 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import PickDate from "@/component_lib/shared_components/PickDate"; // date picker component
+import PickDate from "@/component_lib/booking/PickDate";
 import { useParams } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";

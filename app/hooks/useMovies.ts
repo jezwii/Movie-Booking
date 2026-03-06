@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { movieService } from "../services/movieService";
+import { movieService } from "../services/MovieService";
 import { setMovies, selectMovie } from "../store/slices/movieSlice";
 import { RootState } from "../store/store";
 
@@ -28,7 +28,7 @@ export const useMovies = () => {
     if (movies.length === 0) {
       fetchMovies();
     }
-  }, [dispatch, movies.length, movieService.getMovies]);
+  }, [dispatch, movies.length]);
 
   return { movies, loading, error };
 };
@@ -61,7 +61,7 @@ export const useMovieDetails = (id: string | null) => {
     };
 
     fetchMovie();
-  }, [dispatch, id, movieService.getMovieById]);
+  }, [dispatch, id]);
 
   return { currMovie, loading, error };
 };
