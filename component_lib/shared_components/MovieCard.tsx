@@ -1,12 +1,5 @@
 "use client";
-import {
-  Box,
-  Typography,
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-} from "@mui/material";
+import { Typography, Card, CardContent, CardMedia } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { Movie } from "../../app/types/type";
 

@@ -40,9 +40,7 @@ export default function Topbar() {
 
   return (
     <AppBar position="static">
-      <Toolbar sx={{ justifyContent: "space-between" }}>
-        <Typography variant="h6">Explore Movies</Typography>
-
+      <Toolbar sx={{ justifyContent: "flex-end"}}>
         {user && (
           <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
             {/* User avatar */}

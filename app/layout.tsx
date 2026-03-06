@@ -1,7 +1,7 @@
 "use client";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider, CssBaseline, Box } from "@mui/material";
-import pageTheme from "@/app/theme/theme";
+import pageTheme from "@/theme/theme";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 import Sidebar from "../component_lib/shared_components/Sidebar";
@@ -42,10 +42,8 @@ export default function RootLayout({
               <CssBaseline />
               <AuthProvider>
                 {isAuthPage ? (
-                  // Auth pages — full page, no shell
                   children
                 ) : (
-                  // All other pages — full app shell with Sidebar + Topbar
                   <Box sx={{ display: "flex", height: "100vh" }}>
                     <Box>
                       <Sidebar />
