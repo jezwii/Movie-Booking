@@ -12,9 +12,10 @@ export default function SeatGrid({ selectedSeats, onToggle }: Props) {
     <Box
       sx={{
         display: "grid",
-        gridTemplateColumns: "repeat(8, 40px)",
-        gap: 2,
+        gridTemplateColumns: { xs: "repeat(8, 30px)", sm: "repeat(8, 40px)" },
+        gap: { xs: 1, sm: 2 },
         width: "fit-content",
+        mx: "auto",
       }}
     >
       {rows.map((r) =>
@@ -27,9 +28,14 @@ export default function SeatGrid({ selectedSeats, onToggle }: Props) {
               variant={selected ? "contained" : "outlined"}
               color={selected ? "primary" : "inherit"}
               onClick={() => onToggle(seat)}
-              sx={{ minWidth: 40, width: 40, height: 40, p: 0 }}
+              sx={{
+                minWidth: { xs: 30, sm: 40 },
+                width: { xs: 30, sm: 40 },
+                height: { xs: 30, sm: 40 },
+                p: 0,
+              }}
             >
-              <Typography variant="button" sx={{ fontSize: 12 }}>
+              <Typography variant="button" sx={{ fontSize: { xs: 10, sm: 12 } }}>
                 {seat}
               </Typography>
             </Button>

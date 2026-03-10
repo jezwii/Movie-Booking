@@ -1,5 +1,5 @@
 "use client";
-import { useMovieDetails } from "@/app/hooks/useMovies";
+import { useMovieDetails } from "@/core_componets/hooks/useMovies";
 import { useRouter } from "next/navigation";
 import {
   Alert,
@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
 
 export default function MovieDetailPage() {
+  const bookingFeature = true;
   const params = useParams();
   const id = params.id as string;
   const router = useRouter();
@@ -28,7 +29,7 @@ export default function MovieDetailPage() {
     (state: RootState) => state.movies.bookingTime,
   );
 
-  const canContinue = bookingDate && bookingTime;
+  const canContinue = bookingDate && bookingTime && bookingFeature;
 
   const { currMovie, loading, error } = useMovieDetails(id);
 
@@ -72,12 +73,12 @@ export default function MovieDetailPage() {
 
   return (
     <Box sx={{ p: 3, display: "flex", justifyContent: "center" }}>
-      <Card sx={{ display: "flex", maxWidth: 1100, width: "100%" }}>
+      <Card sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, maxWidth: 1100, width: "100%" }}>
         <CardMedia
           component="img"
           image={currMovie.image}
           alt={currMovie.title}
-          sx={{ width: { xs: 140, sm: 240, md: 400 }, objectFit: "cover" }}
+          sx={{ width: { xs: "100%", md: 400 }, height: { xs: 350, sm: 450, md: "auto" }, objectFit: "cover" }}
         />
 
         <Box sx={{ display: "flex", flexDirection: "column", flex: 1 }}>
@@ -98,13 +99,11 @@ export default function MovieDetailPage() {
               p: 2,
               display: "flex",
               flexDirection: "column",
-              alignItems: "flex-end",
+              alignItems: { xs: "stretch", sm: "flex-end" },
             }}
           >
             {/* date selection stored in redux */}
-            <Box sx={{ mr: 2, mb: 2 }}>
-              <PickDate />
-            </Box>
+            <Box sx={{ mr: 2, mb: 2 }}>{bookingFeature && <PickDate />}</Box>
             <Button
               onClick={() => {
                 router.push(`booking/${currMovie.id}`);
@@ -114,7 +113,7 @@ export default function MovieDetailPage() {
               color="primary"
               sx={{ mr: 2, mb: 2 }}
             >
-              Book Now
+              {bookingFeature ? "Book Now" : "Booking Feature not available"}
             </Button>
           </Box>
         </Box>

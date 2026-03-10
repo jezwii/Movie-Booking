@@ -4,12 +4,14 @@ import { RootState } from "@/app/store/store";
 import { Box, Typography, Divider } from "@mui/material";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 import TicketCard from "@/component_lib/booking/TicketCard";
+import WithAuth from "../providers/withAuth";
 
 export default function BookingDetailsPage() {
   const bookings = useSelector((state: RootState) => state.bookings.bookings);
 
   return (
-    <Box sx={{ maxWidth: 900, mx: "auto", py: 2 }}>
+    <WithAuth>
+      <Box sx={{ maxWidth: 900, mx: "auto", py: 2 }}>
       <Box sx={{ mb: 3 }}>
         <Typography variant="h5" fontWeight={700}>
           My Bookings
@@ -51,5 +53,7 @@ export default function BookingDetailsPage() {
         </Box>
       )}
     </Box>
+    </WithAuth>
+    
   );
 }

@@ -13,7 +13,7 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HomeIcon from "@mui/icons-material/Home";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 import { useRouter } from "next/navigation";
-import { usePaymentSuccess } from "@/app/hooks/usePaymentSuccess";
+import { usePaymentSuccess } from "@/core_componets/hooks/usePaymentSuccess";
 import BookingConfirmationCard from "@/component_lib/booking/BookingConfirmationCard";
 
 function PaymentSuccessContent() {

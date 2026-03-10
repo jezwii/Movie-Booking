@@ -13,7 +13,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useAuth } from "@/app/hooks/useAuth";
+import { useAuth } from "@/core_componets/hooks/useAuth";
 import AuthCard from "@/component_lib/auth/AuthCard";
 
 export default function SignInPage() {
@@ -23,7 +23,9 @@ export default function SignInPage() {
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: Yup.object({
-      email: Yup.string().email("Invalid email address").required("Email is required"),
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("Email is required"),
       password: Yup.string().required("Password is required"),
     }),
     onSubmit: async (values, { resetForm, setSubmitting }) => {
@@ -40,7 +42,7 @@ export default function SignInPage() {
       error={error}
       onGoogleClick={signInWithGoogle}
       googleLabel="Continue with Google"
-      footerText="Don&apos;t have an account?"
+      footerText="Don't have an account?"
       footerLinkLabel="Sign up"
       footerLinkHref="/sign-up"
     >
@@ -78,7 +80,10 @@ export default function SignInPage() {
             input: {
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
+                  <IconButton
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    edge="end"
+                  >
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>

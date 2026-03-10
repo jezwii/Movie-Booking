@@ -16,6 +16,7 @@ import { clearUser } from "@/app/store/slices/authSlice";
 import { signOut } from "firebase/auth";
 import { auth } from "@/app/firebase/config";
 import { useRouter } from "next/navigation";
+import SearchBar from "./SearchBar";
 
 export default function Topbar() {
   const dispatch = useDispatch<AppDispatch>();
@@ -36,13 +37,14 @@ export default function Topbar() {
         .join("")
         .toUpperCase()
         .slice(0, 2)
-    : user?.email?.[0]?.toUpperCase() ?? "?";
+    : (user?.email?.[0]?.toUpperCase() ?? "?");
 
   return (
     <AppBar position="static">
-      <Toolbar sx={{ justifyContent: "flex-end"}}>
+      <Toolbar sx={{ justifyContent: "flex-end" }}>
         {user && (
           <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+            <SearchBar />
             {/* User avatar */}
             <Tooltip title={user.displayName ?? user.email ?? ""}>
               <Avatar
@@ -54,7 +56,10 @@ export default function Topbar() {
             </Tooltip>
 
             {/* Display name or email */}
-            <Typography variant="body2" sx={{ display: { xs: "none", sm: "block" } }}>
+            <Typography
+              variant="body2"
+              sx={{ display: { xs: "none", sm: "block" } }}
+            >
               {user.displayName ?? user.email}
             </Typography>
 

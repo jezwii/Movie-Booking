@@ -1,13 +1,7 @@
 "use client";
 
-import {
-  Box,
-  Card,
-  CardMedia,
-  Typography,
-  Grid,
-} from "@mui/material";
-import { BookingMeta } from "@/app/hooks/usePaymentSuccess";
+import { Box, Card, CardMedia, Typography, Grid } from "@mui/material";
+import { BookingMeta } from "@/core_componets/hooks/usePaymentSuccess";
 
 interface BookingConfirmationCardProps {
   meta: BookingMeta;
