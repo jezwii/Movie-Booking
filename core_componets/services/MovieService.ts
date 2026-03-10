@@ -1,8 +1,8 @@
-import { Movie } from "../types/type";
+import { Movie } from "../../app/types/type";
 import { request } from "./httpService";
 
 const TMDB_API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
-const TMDB_API_URL = "https://api.themoviedb.org/3/movie/popular";
+const TMDB_API_URL = "https://api.themoviedb.org/3/movie";
 
 interface TMDBMovieResponse {
   results: TMDBMovie[];
@@ -26,7 +26,7 @@ export const movieService = {
         return;
       }
 
-      const url = `${TMDB_API_URL}?api_key=${TMDB_API_KEY}&language=en-US&page=1`;
+      const url = `${TMDB_API_URL}/popular?api_key=${TMDB_API_KEY}&language=en-US&page=1`;
 
       request(
         "GET",
@@ -68,7 +68,7 @@ export const movieService = {
         return;
       }
 
-      const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${TMDB_API_KEY}&language=en-US`;
+      const url = `${TMDB_API_URL}/${id}?api_key=${TMDB_API_KEY}&language=en-US`;
 
       request(
         "GET",
@@ -94,6 +94,48 @@ export const movieService = {
         (err: unknown) => {
           console.error("Failed to fetch movie from TMDB:", err);
           resolve(null);
+        },
+      );
+    });
+  },
+  async searchMovies(query: string): Promise<Movie[]> {
+    return new Promise<Movie[]>((resolve) => {
+      if (!TMDB_API_KEY) {
+        console.error("TMDB API key is not set in environment variables.");
+        resolve([]);
+        return;
+      }
+
+      // Encode the query to handle spaces and special characters appropriately
+      const encodedQuery = encodeURIComponent(query);
+      const url = `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&language=en-US&query=${encodedQuery}&page=1`;
+
+      request(
+        "GET",
+        url,
+        (data: TMDBMovieResponse) => {
+          try {
+            const movies: Movie[] = (data.results || []).map(
+              (movie: TMDBMovie) => ({
+                id: movie.id.toString(),
+                title: movie.title,
+                rating: movie.vote_average,
+                duration: "2hrs", // The search API doesn't return runtime immediately
+                image: movie.poster_path
+                  ? `https://image.tmdb.org/t/p/w1280${movie.poster_path}`
+                  : "",
+                description: movie.overview || "No description available.",
+              }),
+            );
+            resolve(movies);
+          } catch (err) {
+            console.error("Error parsing movie data:", err);
+            resolve([]);
+          }
+        },
+        (err: unknown) => {
+          console.error("Failed to fetch search results from TMDB:", err);
+          resolve([]);
         },
       );
     });

@@ -1,17 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import {
-  TextField,
-  Button,
-  IconButton,
-  InputAdornment,
-} from "@mui/material";
+import { TextField, Button, IconButton, InputAdornment } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useAuth } from "@/app/hooks/useAuth";
+import { useAuth } from "@/core_componets/hooks/useAuth";
 import AuthCard from "@/component_lib/auth/AuthCard";
 
 export default function SignUpPage() {
@@ -23,7 +18,9 @@ export default function SignUpPage() {
     initialValues: { name: "", email: "", password: "", confirmPassword: "" },
     validationSchema: Yup.object({
       name: Yup.string().required("Full name is required"),
-      email: Yup.string().email("Invalid email address").required("Email is required"),
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("Email is required"),
       password: Yup.string()
         .min(6, "Password must be at least 6 characters")
         .required("Password is required"),
@@ -92,7 +89,8 @@ export default function SignUpPage() {
           onBlur={formik.handleBlur}
           error={formik.touched.password && Boolean(formik.errors.password)}
           helperText={
-            (formik.touched.password && formik.errors.password) || "Minimum 6 characters"
+            (formik.touched.password && formik.errors.password) ||
+            "Minimum 6 characters"
           }
           sx={{ mb: 2 }}
           autoComplete="new-password"
@@ -100,7 +98,10 @@ export default function SignUpPage() {
             input: {
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
+                  <IconButton
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    edge="end"
+                  >
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
@@ -118,15 +119,23 @@ export default function SignUpPage() {
           value={formik.values.confirmPassword}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
-          helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+          error={
+            formik.touched.confirmPassword &&
+            Boolean(formik.errors.confirmPassword)
+          }
+          helperText={
+            formik.touched.confirmPassword && formik.errors.confirmPassword
+          }
           sx={{ mb: 3 }}
           autoComplete="new-password"
           slotProps={{
             input: {
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={() => setShowConfirm((prev) => !prev)} edge="end">
+                  <IconButton
+                    onClick={() => setShowConfirm((prev) => !prev)}
+                    edge="end"
+                  >
                     {showConfirm ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>

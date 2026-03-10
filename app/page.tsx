@@ -1,7 +1,7 @@
 "use client";
 import { Grid, Typography, Box, CircularProgress, Alert } from "@mui/material";
-import MovieCard from "../component_lib/shared_components/MovieCard";
-import { useMovies } from "./hooks/useMovies";
+import MovieCard from "../component_lib/booking/MovieCard";
+import { useMovies } from "../core_componets/hooks/useMovies";
 import WithAuth from "@/app/providers/withAuth";
 
 export default function Home() {

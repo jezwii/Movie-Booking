@@ -1,11 +1,10 @@
 "use client";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ThemeProvider, CssBaseline, Box } from "@mui/material";
+import { ThemeProvider, CssBaseline, Box, Toolbar } from "@mui/material";
 import pageTheme from "@/theme/theme";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
-import Sidebar from "../component_lib/shared_components/Sidebar";
-import Topbar from "../component_lib/shared_components/Topbar";
+import ResponsiveDrawer from "../component_lib/shared_components/ResponsiveDrawer";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { usePathname } from "next/navigation";
 import AuthProvider from "@/app/providers/AuthProvider";
@@ -45,13 +44,17 @@ export default function RootLayout({
                   children
                 ) : (
                   <Box sx={{ display: "flex", height: "100vh" }}>
-                    <Box>
-                      <Sidebar />
-                    </Box>
-                    <Box sx={{ display: "flex", flex: 1, flexDirection: "column" }}>
-                      <Box sx={{ height: 64 }}>
-                        <Topbar />
-                      </Box>
+                    <ResponsiveDrawer />
+                    <Box
+                      component="main"
+                      sx={{
+                        flexGrow: 1,
+                        display: "flex",
+                        flexDirection: "column",
+                        width: { sm: `calc(100% - 240px)` },
+                      }}
+                    >
+                      <Toolbar /> {/* Spacer for fixed AppBar */}
                       <Box sx={{ flex: 1, p: 3 }}>{children}</Box>
                     </Box>
                   </Box>

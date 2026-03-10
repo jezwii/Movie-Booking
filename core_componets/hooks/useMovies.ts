@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import { Movie } from "../../app/types/type";
 import { useDispatch, useSelector } from "react-redux";
 import { movieService } from "../services/MovieService";
-import { setMovies, selectMovie } from "../store/slices/movieSlice";
-import { RootState } from "../store/store";
+import { setMovies, selectMovie } from "../../app/store/slices/movieSlice";
+import { RootState } from "../../app/store/store";
 
 export const useMovies = () => {
   const dispatch = useDispatch();
@@ -64,4 +65,35 @@ export const useMovieDetails = (id: string | null) => {
   }, [dispatch, id]);
 
   return { currMovie, loading, error };
+};
+
+export const useSearchMovies = (query: string | null) => {
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!query) {
+      setMovies([]);
+      return;
+    }
+
+    const fetchMovies = async () => {
+      setLoading(true);
+      try {
+        const data = await movieService.searchMovies(query); //searchMovies(batman)
+        setMovies(data);
+        setError(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to fetch search results");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMovies();
+  }, [query]);
+
+  return { movies, loading, error };
 };

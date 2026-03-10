@@ -17,7 +17,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LocalActivityIcon from "@mui/icons-material/LocalActivity";
 import { toggleSeat } from "@/app/store/slices/movieSlice";
 import { setTotalAmount } from "@/app/store/slices/paymentSlice";
-import { createCheckoutSession } from "@/app/services/paymentService";
+import { createCheckoutSession } from "@/core_componets/services/paymentService";
 import SeatGrid from "./SeatGrid";
 import BookingSummary from "./BookingSummary";
 
@@ -79,13 +79,17 @@ export default function BookingDetails({ movieId }: Props) {
       <Card sx={{ display: "flex", maxWidth: 1100, width: "100%" }}>
         <Box sx={{ display: "flex", flexDirection: "column", flex: 1 }}>
           <CardContent sx={{ flex: "1 0 auto" }}>
-
             {/* ── Header ── */}
             <Box sx={{ mb: 3 }}>
               {/* Breadcrumb label */}
               <Typography
                 variant="overline"
-                sx={{ color: "#E91E63", fontWeight: 700, letterSpacing: 2, fontSize: 11 }}
+                sx={{
+                  color: "#E91E63",
+                  fontWeight: 700,
+                  letterSpacing: 2,
+                  fontSize: 11,
+                }}
               >
                 Now Booking
               </Typography>
@@ -129,10 +133,14 @@ export default function BookingDetails({ movieId }: Props) {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                width: "100%",
+                overflowX: "auto",
               }}
             >
-              <Box>
-                <SeatGrid onToggle={toggle} selectedSeats={selectedSeats} />
+              <Box sx={{ width: "100%", maxWidth: 450 }}>
+                <Box sx={{ overflowX: "auto", pb: 2, display: "flex", justifyContent: "center" }}>
+                  <SeatGrid onToggle={toggle} selectedSeats={selectedSeats} />
+                </Box>
                 <BookingSummary
                   selectedSeats={selectedSeats}
                   totalAmount={totalAmount}
@@ -171,7 +179,7 @@ export default function BookingDetails({ movieId }: Props) {
               color="text.secondary"
               sx={{ display: "block", textAlign: "center", mt: 1.5 }}
             >
-              You will be redirected to Stripe's secure payment page.
+              You will be redirected to Stripe`apos;`s secure payment page.
             </Typography>
           </CardContent>
         </Box>

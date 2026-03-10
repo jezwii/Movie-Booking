@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/app/store/store";
 import { addBooking } from "@/app/store/slices/bookingSlice";
-import { getCheckoutSession } from "@/app/services/paymentService";
+import { getCheckoutSession } from "@/core_componets/services/paymentService";
 
 export interface BookingMeta {
   movieTitle: string;
@@ -18,7 +18,7 @@ export function usePaymentSuccess(sessionId: string | null) {
   const dispatch = useDispatch<AppDispatch>();
   const [meta, setMeta] = useState<BookingMeta | null>(null);
   const [fetchError, setFetchError] = useState<string | null>(
-    sessionId ? null : "No session Id found in url"
+    sessionId ? null : "No session Id found in url",
   );
   const savedRef = useRef(false);
 
@@ -47,7 +47,7 @@ export function usePaymentSuccess(sessionId: string | null) {
               seats: bookingMeta.seats ? bookingMeta.seats.split(",") : [],
               totalAmount: Number(bookingMeta.totalAmount),
               bookedAt: new Date().toISOString(),
-            })
+            }),
           );
         }
       })
